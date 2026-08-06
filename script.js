@@ -134,9 +134,26 @@ function renderResults(listings) {
     deltaEl.textContent = `${deltaRedondeado > 0 ? '+' : ''}${deltaRedondeado}% vs. promedio`;
     deltaEl.classList.add(esBueno ? 'car-card__delta--good' : 'car-card__delta--bad');
 
-    node.querySelector('.car-card__distance').textContent =
-      item.distanciaKm != null ? `${Math.round(item.distanciaKm)} km` : 'distancia n/d';
+    // Mientras no haya geolocalización activa, mostramos el
+    // kilometraje del auto en ese espacio si el backend lo mandó
+    // (Seminuevos sí lo trae); si no hay ninguno de los dos, se
+    // deja un guión.
+    const distanciaTexto =
+      item.distanciaKm != null
+        ? `${Math.round(item.distanciaKm)} km de distancia`
+        : item.km != null
+        ? `${item.km.toLocaleString('es-MX')} km recorridos`
+        : '—';
+    node.querySelector('.car-card__distance').textContent = distanciaTexto;
     node.querySelector('.car-card__resale').textContent = `reventa est. ${formatMoney(item.promedioMercado)}`;
+
+    // Si el anuncio trae un link al sitio original, la tarjeta
+    // completa se vuelve clickeable para abrirlo en una pestaña nueva.
+    const cardEl = node.querySelector('.car-card');
+    if (item.link) {
+      cardEl.style.cursor = 'pointer';
+      cardEl.addEventListener('click', () => window.open(item.link, '_blank', 'noopener'));
+    }
 
     resultsEl.appendChild(node);
   });
