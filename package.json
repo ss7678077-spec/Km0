@@ -1,0 +1,9 @@
+{
+  "name": "km0",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Buscador de autos multi-sitio con comparación de precio de mercado",
+  "scripts": {
+    "dev": "netlify dev"
+  }
+}
