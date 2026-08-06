@@ -148,11 +148,16 @@ function renderResults(listings) {
     node.querySelector('.car-card__resale').textContent = `reventa est. ${formatMoney(item.promedioMercado)}`;
 
     // Si el anuncio trae un link al sitio original, la tarjeta
-    // completa se vuelve clickeable para abrirlo en una pestaña nueva.
+    // completa se vuelve clickeable para abrirlo. Usamos la misma
+    // pestaña (en vez de window.open a una nueva) porque varios
+    // navegadores de celular bloquean la apertura de pestañas nuevas
+    // por seguridad, y así es más confiable.
     const cardEl = node.querySelector('.car-card');
     if (item.link) {
       cardEl.style.cursor = 'pointer';
-      cardEl.addEventListener('click', () => window.open(item.link, '_blank', 'noopener'));
+      cardEl.addEventListener('click', () => {
+        window.location.href = item.link;
+      });
     }
 
     resultsEl.appendChild(node);
@@ -162,4 +167,4 @@ function renderResults(listings) {
 function setLoading(isLoading) {
   form.querySelector('.btn-search').classList.toggle('is-loading', isLoading);
   form.querySelectorAll('input, button').forEach((el) => (el.disabled = isLoading));
-}
+                   }
