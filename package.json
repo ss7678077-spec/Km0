@@ -5,5 +5,8 @@
   "description": "Buscador de autos multi-sitio con comparación de precio de mercado",
   "scripts": {
     "dev": "netlify dev"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0"
   }
 }
